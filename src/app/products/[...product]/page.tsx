@@ -32,6 +32,8 @@ export default function Home() {
             </Box>
           </section>
 
+          <Rating rate={4.3} />
+
           <Box
             as="button"
             height="50px"
