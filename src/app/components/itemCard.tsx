@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { VStack } from "@chakra-ui/react";
 
 interface ItemCardProps {
   title: string;
@@ -8,7 +9,14 @@ interface ItemCardProps {
 
 export default function ItemCard(props: ItemCardProps) {
   return (
-    <section className="flex flex-col justify-between text-center h-96 w-80 shadow-md p-4">
+    <VStack
+      justify="space-between"
+      textAlign="center"
+      shadow="md"
+      h={96}
+      w={80}
+      p={4}
+    >
       <Link
         href={`/product/${props.itemID}`}
         className="flex flex-col items-center justify-center"
@@ -24,6 +32,6 @@ export default function ItemCard(props: ItemCardProps) {
       >
         Buy
       </Link>
-    </section>
+    </VStack>
   );
 }
