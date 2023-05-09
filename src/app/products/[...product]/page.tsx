@@ -1,5 +1,6 @@
 "use client";
 
+import Comment from "@/app/components/comment";
 import Rating from "@/app/components/rating";
 import {
   Box,
@@ -12,13 +13,14 @@ import {
   VStack,
   Center,
 } from "@chakra-ui/react";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <Center>
       <SimpleGrid m="10" columns={[1, 2]} spacing={5}>
         <VStack maxW={600} alignItems={"flex-start"} gap="2">
-          <Box h={600} w={600} background="black" />
+          <Image src={"/placeholder.jpg"} alt="" width={600} height={600} />
           <section>
             <Heading as="h1" size="lg">
               Notebook Gamer Lenovo Gaming 3i
@@ -56,7 +58,77 @@ export default function Home() {
             <StatNumber>R$0.00</StatNumber>
           </Stat>
         </VStack>
-        <VStack maxW={600} alignItems={"flex-start"} gap="2"></VStack>
+        <VStack
+          maxW={600}
+          maxH={850}
+          overflow="auto"
+          alignItems={"flex-start"}
+          gap="2"
+        >
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />{" "}
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />{" "}
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />{" "}
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />{" "}
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />{" "}
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />{" "}
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />{" "}
+          <Comment
+            name="ABOGUS"
+            title="Gostei!"
+            description="Gostei Não"
+            date="1-20-2023"
+            rate={3}
+          />
+        </VStack>
       </SimpleGrid>
     </Center>
   );
