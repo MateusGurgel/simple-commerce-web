@@ -1,11 +1,10 @@
-import { CacheProvider } from "@chakra-ui/next-js";
-import { ChakraProvider } from "@chakra-ui/react";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 
 import Header from "./layouts/header";
 import Footer from "./layouts/footer";
 import { Providers } from "./providers";
+import Body from "./layouts/body";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
@@ -24,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Header />
-          {children}
+          <Body>{children}</Body>
           <Footer />
         </Providers>
       </body>
