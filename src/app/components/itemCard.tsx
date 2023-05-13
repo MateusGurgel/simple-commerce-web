@@ -18,7 +18,7 @@ export default function ItemCard(props: ItemCardProps) {
       p={4}
     >
       <Link
-        href={`/product/${props.itemID}`}
+        href={`/products/${props.itemID}`}
         className="flex flex-col items-center justify-center"
       >
         <Image src={"/placeholder.jpg"} alt="" width={237} height={162} />
