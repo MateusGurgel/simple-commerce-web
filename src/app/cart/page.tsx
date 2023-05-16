@@ -3,8 +3,11 @@
 import { VStack, Box, HStack, Heading } from "@chakra-ui/react";
 import Button from "../components/button";
 import OrderItemCard from "../components/OrderItemCard";
+import { useState } from "react";
 
 export default function Home() {
+  const [totalValue, setTotalValue] = useState("");
+
   return (
     <VStack px="10%" py={8} gap={10}>
       <OrderItemCard
@@ -20,7 +23,7 @@ export default function Home() {
         <Box bg="green.100" textColor="green.700" minW={200} p={4}>
           <h6>Total Value</h6>
           <Heading as="h1" size="lg" fontWeight="semibold">
-            R$ 2.599,99
+            R$ {totalValue}
           </Heading>
         </Box>
       </HStack>
