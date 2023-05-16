@@ -1,8 +1,5 @@
 "use client";
 
-import Button from "@/app/components/button";
-import Comment from "@/app/components/comment";
-import Rating from "@/app/components/rating";
 import {
   Heading,
   SimpleGrid,
@@ -21,7 +18,7 @@ import {
 export default function Home() {
   return (
     <Center textAlign="center">
-      <SimpleGrid m="10" columns={[1, 2]} spacing={10}>
+      <SimpleGrid columns={[1, null, 2]} m="10" spacing={10}>
         <VStack maxW={600} alignItems={"flex-start"} gap="2">
           <Heading fontWeight="semibold" as="h1" size="md">
             Order: 5F721AF77829920004C89E0C
