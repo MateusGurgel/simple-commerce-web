@@ -1,4 +1,3 @@
-import axios from "axios";
 import { productList } from "../constants/productConstants";
 import { Dispatch } from "redux";
 import { api } from "@/app/api";
