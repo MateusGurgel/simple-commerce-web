@@ -3,6 +3,9 @@
 import Button from "@/app/components/button";
 import Comment from "@/app/components/comment";
 import Rating from "@/app/components/rating";
+import { fetcher } from "@/app/api";
+import Image from "next/image";
+import useSWR from "swr";
 import {
   Box,
   Text,
@@ -14,9 +17,21 @@ import {
   VStack,
   Center,
 } from "@chakra-ui/react";
-import Image from "next/image";
+import LoadingScreen from "@/app/components/loadingScreen";
+import Product from "@/app/interfaces/Product";
+import NotFoundScreen from "@/app/components/notFoundScreen";
 
 export default function Home() {
+  const { data, error, isLoading } = useSWR<Product>("/products/26", fetcher);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (error || !data) {
+    return <NotFoundScreen />;
+  }
+
   return (
     <Center>
       <SimpleGrid m="10" columns={[1, 2]} spacing={5}>
@@ -24,23 +39,21 @@ export default function Home() {
           <Image src={"/placeholder.jpg"} alt="" width={600} height={600} />
           <section>
             <Heading as="h1" size="lg">
-              Notebook Gamer Lenovo Gaming 3i
+              {data?.name}
             </Heading>
             <Box w={"75%"}>
               <Text fontSize="xs" noOfLines={[1, 2, 3, 4, 5]}>
-                Lenovo ideapad Gaming 3i Novo design com 11ª Geração de
-                Processadores Intel Core i5-11300H e placa de vídeo NVIDIA
-                GeForce GTX 1650 4GB.
+                {data.description}
               </Text>
             </Box>
           </section>
 
-          <Rating rate={4.3} />
+          <Rating rate={data.rate} />
 
           <Button>Buy</Button>
           <Stat>
             <StatLabel>Price</StatLabel>
-            <StatNumber>R$0.00</StatNumber>
+            <StatNumber>R${data.price}</StatNumber>
           </Stat>
         </VStack>
         <VStack
@@ -50,62 +63,6 @@ export default function Home() {
           alignItems={"flex-start"}
           gap="2"
         >
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />{" "}
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />{" "}
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />{" "}
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />{" "}
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />{" "}
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />{" "}
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />{" "}
           <Comment
             name="ABOGUS"
             title="Gostei!"
