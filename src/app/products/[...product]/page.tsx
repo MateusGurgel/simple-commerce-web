@@ -21,8 +21,17 @@ import LoadingScreen from "@/app/components/loadingScreen";
 import Product from "@/app/interfaces/Product";
 import NotFoundScreen from "@/app/components/notFoundScreen";
 
-export default function Home() {
-  const { data, error, isLoading } = useSWR<Product>("/products/26", fetcher);
+interface productsProps {
+  params: {
+    product: string;
+  };
+}
+
+export default function Home({ params }: productsProps) {
+  const { data, error, isLoading } = useSWR<Product>(
+    "/products/" + params.product,
+    fetcher
+  );
 
   if (isLoading) {
     return <LoadingScreen />;
