@@ -6,7 +6,7 @@ interface OrderItemCardProps {
   image: string;
   brand: string;
   title: string;
-  price: string;
+  price: number;
 }
 
 export default function OrderItemCard(props: OrderItemCardProps) {

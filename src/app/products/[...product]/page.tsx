@@ -1,7 +1,8 @@
 "use client";
 
-import Button from "@/app/components/button";
+import { useSelector, useDispatch } from 'react-redux';
 import Comment from "@/app/components/comment";
+import Button from "@/app/components/button";
 import Rating from "@/app/components/rating";
 import { fetcher } from "@/app/api";
 import Image from "next/image";
@@ -20,6 +21,7 @@ import {
 import LoadingScreen from "@/app/components/loadingScreen";
 import Product from "@/app/interfaces/Product";
 import NotFoundScreen from "@/app/components/notFoundScreen";
+import { addToCart, useCartState } from '@/app/redux/cart';
 
 interface productsProps {
   params: {
@@ -27,11 +29,25 @@ interface productsProps {
   };
 }
 
+
 export default function Home({ params }: productsProps) {
+  
+  const cartItems = useCartState()
+  const dispatch = useDispatch();
+
   const { data, error, isLoading } = useSWR<Product>(
     "/products/" + params.product,
     fetcher
   );
+
+  function handleOnBuy(){
+
+    if (!data){
+      return
+    }
+
+    dispatch(addToCart(data));
+  }
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -59,7 +75,7 @@ export default function Home({ params }: productsProps) {
 
           <Rating rate={data.rate} />
 
-          <Button>Buy</Button>
+          <Button OnClick={handleOnBuy}>Buy</Button>
           <Stat>
             <StatLabel>Price</StatLabel>
             <StatNumber>R${data.price}</StatNumber>
