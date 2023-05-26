@@ -1,29 +1,35 @@
 "use client";
 
-import { VStack, Box, HStack, Heading } from "@chakra-ui/react";
+import { VStack, Box, HStack, Heading, Divider } from "@chakra-ui/react";
 import Button from "../components/button";
 import OrderItemCard from "../components/OrderItemCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCartState } from "../redux/cart";
 
 export default function Home() {
-  const [totalValue, setTotalValue] = useState("");
-  const cartState = useCartState()
+  const cartState = useCartState();
+  const [totalValue, setTotalValue] = useState(0);
+
+  useEffect(() => {
+    setTotalValue(0);
+    cartState.cart.forEach((item) => {
+      setTotalValue((prev) => prev + item.price * item.quantity);
+    });
+  }, [cartState]);
 
   return (
     <VStack px="10%" py={8} gap={10}>
-
-
-      {cartState.cart && cartState.cart.map((item) => (
-      <OrderItemCard
-        key={item.id}
-        image={item.image}
-        brand={'apple'}
-        title={item.name}
-        price={item.price}
-      />
-      ))}
-
+      {cartState.cart &&
+        cartState.cart.map((item) => (
+          <OrderItemCard
+            key={item.id}
+            quantity={item.quantity}
+            image={item.image}
+            brand={item.brand}
+            title={item.name}
+            price={item.price}
+          />
+        ))}
 
       <HStack w="full" py={4} px={16} gap={6} shadow="lg">
         <Button>Buy</Button>
@@ -31,7 +37,7 @@ export default function Home() {
         <Box bg="green.100" textColor="green.700" minW={200} p={4}>
           <h6>Total Value</h6>
           <Heading as="h1" size="lg" fontWeight="semibold">
-            R$ {totalValue}
+            R$ {totalValue.toString().substring(0, 6)}
           </Heading>
         </Box>
       </HStack>

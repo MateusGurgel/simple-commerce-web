@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Box, HStack, Heading, Text, Spacer } from "@chakra-ui/react";
+import { Box, HStack, Heading, Text, Spacer, Divider } from "@chakra-ui/react";
 import { title } from "process";
 
 interface OrderItemCardProps {
@@ -7,6 +7,7 @@ interface OrderItemCardProps {
   brand: string;
   title: string;
   price: number;
+  quantity: number;
 }
 
 export default function OrderItemCard(props: OrderItemCardProps) {
@@ -14,12 +15,13 @@ export default function OrderItemCard(props: OrderItemCardProps) {
     <HStack w="full" py={4} px={16} gap={8} shadow="lg">
       <Image src={props.image} alt="" width={237} height={162} />
 
-      <Box>
+      <Box borderRight={"1px"} p={4}>
         <Heading as="h4" size="md" fontWeight="light">
           {props.brand}
         </Heading>
         <Text fontWeight={"semibold"}>{props.title}</Text>
       </Box>
+      <Text>{props.quantity}</Text>
 
       <Spacer />
 

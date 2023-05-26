@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 const ADD_TO_CART = "cart/ADD_TO_CART";
 const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART";
 const UPDATE_QUANTITY = "cart/UPDATE_QUANTITY";
-const GET_PRICE = "cart/GET_PRICE";
 
 // Action interfaces
 interface AddToCartAction {
@@ -53,6 +52,7 @@ const updateQuantity = (
 interface CartItem {
   id: string;
   image: string;
+  brand: string;
   name: string;
   price: number;
   quantity: number;
@@ -75,6 +75,7 @@ const cartReducer = (
         name: product.name,
         price: product.price,
         image: product.image,
+        brand: product.brand,
         quantity: 1,
       };
 
@@ -110,14 +111,14 @@ const cartReducer = (
   }
 };
 
-interface CartStateSelector{
-  cart: CartState
+interface CartStateSelector {
+  cart: CartState;
 }
 
-function useCartState(){
-  const cartState = useSelector((state : CartStateSelector) => state);
+function useCartState() {
+  const cartState = useSelector((state: CartStateSelector) => state);
   return cartState;
-};
+}
 
-export { addToCart, updateQuantity, removeFromCart, useCartState }
+export { addToCart, updateQuantity, removeFromCart, useCartState };
 export default cartReducer;
