@@ -33,13 +33,13 @@ export default function Home() {
 
       <HStack w="full" py={4} px={16} gap={6} shadow="lg">
         <Button>Buy</Button>
+          <Box p={4} minW={140}>
+            <h6>Total Value</h6>
+            <Heading as="h1" size="lg" fontWeight="semibold">
+              R$ {totalValue.toString().substring(0, 6)}
+            </Heading>
+          </Box>
 
-        <Box bg="green.100" textColor="green.700" minW={200} p={4}>
-          <h6>Total Value</h6>
-          <Heading as="h1" size="lg" fontWeight="semibold">
-            R$ {totalValue.toString().substring(0, 6)}
-          </Heading>
-        </Box>
       </HStack>
     </VStack>
   );
