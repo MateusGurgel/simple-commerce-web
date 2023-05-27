@@ -1,6 +1,6 @@
 "use client";
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import Comment from "@/app/components/comment";
 import Button from "@/app/components/button";
 import Rating from "@/app/components/rating";
@@ -21,7 +21,7 @@ import {
 import LoadingScreen from "@/app/components/loadingScreen";
 import Product from "@/app/interfaces/Product";
 import NotFoundScreen from "@/app/components/notFoundScreen";
-import { addToCart, useCartState } from '@/app/redux/cart';
+import { addToCart, useCartState } from "@/app/redux/cart";
 
 interface productsProps {
   params: {
@@ -29,10 +29,8 @@ interface productsProps {
   };
 }
 
-
 export default function Home({ params }: productsProps) {
-  
-  const cartItems = useCartState()
+  const cartItems = useCartState();
   const dispatch = useDispatch();
 
   const { data, error, isLoading } = useSWR<Product>(
@@ -40,10 +38,9 @@ export default function Home({ params }: productsProps) {
     fetcher
   );
 
-  function handleOnBuy(){
-
-    if (!data){
-      return
+  function handleOnBuy() {
+    if (!data) {
+      return;
     }
 
     dispatch(addToCart(data));

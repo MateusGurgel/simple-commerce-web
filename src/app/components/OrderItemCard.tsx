@@ -25,7 +25,7 @@ export default function OrderItemCard(props: OrderItemCardProps) {
 
       <Spacer />
 
-      <Heading float={"right"} as="h1" size="lg" fontWeight="semibold">
+      <Heading float={"right"} as="h1" size="lg" fontWeight="normal">
         {`$ ${props.price}`}
       </Heading>
     </HStack>
