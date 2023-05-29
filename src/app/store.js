@@ -5,11 +5,22 @@ import cartReducer from "./redux/cart";
 import storage from "redux-persist/lib/storage";
 import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
+import createTransform from "redux-persist/es/createTransform";
 import userReducer from "./redux/user";
 
 const persistConfig = {
   key: "root",
   storage,
+  transforms: [
+    createTransform(
+      (inboundState, key) => {
+        if (key === 'user') {
+          delete inboundState.error;
+        }
+        return inboundState;
+      },
+    )
+  ],
 };
 
 const reducer = combineReducers({
