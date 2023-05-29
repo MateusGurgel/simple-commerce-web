@@ -8,6 +8,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Text,
 } from "@chakra-ui/react";
 import Button from "../components/button";
 import Link from "next/link";
@@ -20,6 +21,10 @@ import {
   FormikProps,
 } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { register, useUserState } from "../redux/user";
+import { useEffect } from "react";
 
 interface FormProps {
   name: string;
@@ -41,14 +46,22 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function Home() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { isLoading, error, user } = useUserState();
+
+  useEffect(() => {
+    if (user && router){
+      router.push("/")
+    }
+  }, [user, router])
+
   function handleOnSubmit(
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-    }, 1000);
+    dispatch<any>(register(values.name, values.email, values.password));
+    actions.setSubmitting(false);
   }
 
   return (
@@ -167,8 +180,10 @@ export default function Home() {
                     </FormControl>
                   )}
                 </Field>
-
-                <Button>Login</Button>
+                <Text fontSize="md" color="red">
+                  {error}
+                </Text>
+                <Button disabled={isLoading}>Login</Button>
                 <Link
                   href={"/login"}
                   className="underline "

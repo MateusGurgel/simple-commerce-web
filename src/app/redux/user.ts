@@ -1,14 +1,33 @@
-import { Dispatch } from "react";
 import User from "../interfaces/User";
-import { api } from "../api";
-import { error } from "console";
-import { AxiosError } from "axios";
+import { Dispatch } from "react";
 import { useSelector } from "react-redux";
+import { api } from "../api";
+
+const REGISTER_USER_REQUEST = "user/REGISTER_USER_REQUEST";
+const REGISTER_USER_SUCCESS = "user/REGISTER_USER_SUCCESS";
+const REGISTER_USER_FAILURE = "user/REGISTER_USER_FAILURE";
 
 const LOGIN_USER_REQUEST = "user/LOGIN_USER_REQUEST";
 const LOGIN_USER_SUCCESS = "user/LOGIN_USER_SUCCESS";
 const LOGIN_USER_FAILURE = "user/LOGIN_USER_FAILURE";
+
 const USER_LOGOUT = "user/LOGOUT";
+
+//register action types
+
+interface UserRegisterRequestAction {
+  type: typeof REGISTER_USER_REQUEST;
+}
+
+interface UserRegisterSuccessAction {
+  type: typeof REGISTER_USER_SUCCESS;
+  payload: User;
+}
+
+interface UserRegisterFailureAction {
+  type: typeof REGISTER_USER_FAILURE;
+  error: string;
+}
 
 //login action types
 interface UserLoginRequestAction {
@@ -25,16 +44,36 @@ interface UserLoginFailureAction {
   error: string;
 }
 
-interface UserLogoutFailureAction {
+interface UserLogoutAction {
   type: typeof USER_LOGOUT;
 }
 
 type UserActionTypes =
+  | UserRegisterRequestAction
+  | UserRegisterSuccessAction
+  | UserRegisterFailureAction
   | UserLoginRequestAction
   | UserLoginSuccessAction
   | UserLoginFailureAction
-  | UserLogoutFailureAction;
+  | UserLogoutAction;
 
+//Register Action creators
+
+export const RegisterUserRequest = (): UserRegisterRequestAction => ({
+  type: REGISTER_USER_REQUEST,
+});
+
+export const RegisterUserSuccess = (user: User): UserRegisterSuccessAction => ({
+  type: REGISTER_USER_SUCCESS,
+  payload: user,
+});
+
+export const RegisterUserFailure = (
+  error: string
+): UserRegisterFailureAction => ({
+  type: REGISTER_USER_FAILURE,
+  error,
+});
 //Login Action creators
 
 export const LoginUserRequest = (): UserLoginRequestAction => ({
@@ -65,6 +104,33 @@ const initialState: UserState = {
   error: null,
 };
 
+//RegisterUser Async Thunk
+
+export const register = (name: string, email: string, password: string) => {
+  return async (dispatch: Dispatch<UserActionTypes>) => {
+    dispatch(RegisterUserRequest());
+
+    const body = {
+      name: name,
+      email: email,
+      password: password,
+    };
+
+    try {
+      const response = await api.post("/users", body);
+      const user = response.data;
+      dispatch(RegisterUserSuccess(user));
+    } catch (error: any) {
+      if (!error.response) {
+        dispatch(RegisterUserFailure("Try again later"));
+      }
+
+      const userErrorMessage = error.response.data.errors[0].message;
+      dispatch(RegisterUserFailure(userErrorMessage));
+    }
+  };
+};
+
 //LoginUser Async Thunk
 
 export const login = (email: string, password: string) => {
@@ -81,12 +147,11 @@ export const login = (email: string, password: string) => {
       const user = response.data;
       dispatch(LoginUserSuccess(user));
     } catch (error: any) {
-
-      if(!error.response){
+      if (!error.response) {
         dispatch(LoginUserFailure("Try again later"));
       }
 
-      const userErrorMessage = error.response.data.errors[0].message
+      const userErrorMessage = error.response.data.errors[0].message;
       dispatch(LoginUserFailure(userErrorMessage));
     }
   };
@@ -98,6 +163,24 @@ const userReducer = (
   action: UserActionTypes
 ): UserState => {
   switch (action.type) {
+    case REGISTER_USER_REQUEST:
+    return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        isLoading: false,
+      };
+    case REGISTER_USER_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        isLoading: false,
+      };
     case LOGIN_USER_REQUEST:
       return {
         ...state,
@@ -128,8 +211,8 @@ interface UserStateSelector {
 }
 
 export function useUserState() {
-  const cartState = useSelector((state: UserStateSelector) => state);
-  return cartState.user;
+  const userState = useSelector((state: UserStateSelector) => state);
+  return userState.user;
 }
 
 export default userReducer;
