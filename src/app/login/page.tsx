@@ -23,6 +23,8 @@ import {
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login, useUserState } from "../redux/user";
+import { useEffect } from "react";
+import { useRouter } from 'next/navigation';
 
 interface FormProps {
   email: string;
@@ -39,8 +41,15 @@ const SignInSchema = Yup.object().shape({
 });
 
 export default function Home() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { isLoading, error, user } = useUserState();
+
+  useEffect(() => {
+    if (user && router){
+      router.push("/")
+    }
+  }, [user, router])
 
   function handleOnSubmit(
     values: FormProps,
