@@ -81,7 +81,13 @@ export const login = (email: string, password: string) => {
       const user = response.data;
       dispatch(LoginUserSuccess(user));
     } catch (error: any) {
-      dispatch(LoginUserFailure(error.response?.data));
+
+      if(!error.response){
+        dispatch(LoginUserFailure("Try again later"));
+      }
+
+      const userErrorMessage = error.response.data.errors[0].message
+      dispatch(LoginUserFailure(userErrorMessage));
     }
   };
 };
