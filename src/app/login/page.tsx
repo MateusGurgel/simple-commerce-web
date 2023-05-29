@@ -8,6 +8,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Text,
 } from "@chakra-ui/react";
 import Button from "../components/button";
 import Link from "next/link";
@@ -20,6 +21,8 @@ import {
   FormikProps,
 } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { login, useUserState } from "../redux/user";
 
 interface FormProps {
   email: string;
@@ -36,14 +39,15 @@ const SignInSchema = Yup.object().shape({
 });
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const { isLoading, error, user } = useUserState();
+
   function handleOnSubmit(
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-    }, 1000);
+    dispatch<any>(login(values.email, values.password));
+    actions.setSubmitting(false);
   }
 
   return (
@@ -95,6 +99,7 @@ export default function Home() {
                       <FormLabel>Password</FormLabel>
                       <Input
                         {...field}
+                        type="password"
                         focusBorderColor="black"
                         placeholder="Password"
                         size="lg"
@@ -105,11 +110,13 @@ export default function Home() {
                     </FormControl>
                   )}
                 </Field>
-
-                <Button>Login</Button>
+                <Text fontSize="md" color="red">
+                  {error}
+                </Text>
+                <Button disabled={isLoading}>Login</Button>
                 <Link
                   href={"/register"}
-                  className="underline "
+                  className="underline"
                 >{`Don't have an account yet?`}</Link>
               </Stack>
             </Form>

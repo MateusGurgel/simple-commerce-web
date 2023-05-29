@@ -3,6 +3,7 @@ import User from "../interfaces/User";
 import { api } from "../api";
 import { error } from "console";
 import { AxiosError } from "axios";
+import { useSelector } from "react-redux";
 
 const LOGIN_USER_REQUEST = "user/LOGIN_USER_REQUEST";
 const LOGIN_USER_SUCCESS = "user/LOGIN_USER_SUCCESS";
@@ -76,7 +77,7 @@ export const login = (email: string, password: string) => {
     };
 
     try {
-      const response = await api.post("/login", body);
+      const response = await api.post("/users/auth", body);
       const user = response.data;
       dispatch(LoginUserSuccess(user));
     } catch (error: any) {
@@ -115,5 +116,14 @@ const userReducer = (
       return state;
   }
 };
+
+interface UserStateSelector {
+  user: UserState;
+}
+
+export function useUserState() {
+  const cartState = useSelector((state: UserStateSelector) => state);
+  return cartState.user;
+}
 
 export default userReducer;
