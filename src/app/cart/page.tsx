@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     setTotalValue(0);
-    cartState.cart.forEach((item) => {
+    cartState.cart.items.forEach((item) => {
       setTotalValue((prev) => prev + item.price * item.quantity);
     });
   }, [cartState]);
@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <VStack px="10%" py={8} gap={10}>
       {cartState.cart &&
-        cartState.cart.map((item) => (
+        cartState.cart.items.map((item) => (
           <OrderItemCard
             key={item.id}
             quantity={item.quantity}
