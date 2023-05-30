@@ -59,6 +59,7 @@ export default function Home() {
       </Stepper>
 
       <ShippingForm setNextStep={() => setActiveStep(activeStep + 1)}/>
+      
     </VStack>
   );
 }
