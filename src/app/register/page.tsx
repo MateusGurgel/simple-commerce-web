@@ -142,6 +142,7 @@ export default function Home() {
                         {...field}
                         focusBorderColor="black"
                         placeholder="Password"
+                        type="password"
                         size="lg"
                       />
                       <FormErrorMessage>
@@ -172,6 +173,7 @@ export default function Home() {
                         {...field}
                         focusBorderColor="black"
                         placeholder="confirmPassword"
+                        type="password"
                         size="lg"
                       />
                       <FormErrorMessage>

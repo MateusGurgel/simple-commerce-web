@@ -90,6 +90,10 @@ export const LoginUserFailure = (error: string): UserLoginFailureAction => ({
   error,
 });
 
+export const SingOutUser = (): UserLogoutAction => ({
+  type: USER_LOGOUT,
+});
+
 // State type
 interface UserState {
   user: User | null;
