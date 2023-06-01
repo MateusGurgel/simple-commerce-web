@@ -1,12 +1,7 @@
 "use client";
 
-import OrderItemCard from "@/app/components/OrderItemCard";
-import { useCartState } from "@/app/redux/cart";
 import {
   Box,
-  Button,
-  HStack,
-  Heading,
   Step,
   StepDescription,
   StepIcon,
@@ -20,9 +15,11 @@ import {
   useSteps,
 } from "@chakra-ui/react";
 import ShippingForm from "../components/shippingForm";
+import CheckoutLoginForm from "../components/checkoutLoginForm";
 
 export default function Home() {
   const steps = [
+    { title: "Log in", description: "login" },
     { title: "Shipping", description: "Address" },
     { title: "Second", description: "Date & Time" },
     { title: "Third", description: "Select Rooms" },
@@ -31,13 +28,33 @@ export default function Home() {
   const { activeStep, setActiveStep } = useSteps({
     index: 1,
     count: steps.length,
-  })
+  });
 
-  console.log(activeStep)
+  function getStepComponent(step: number) {
+    switch (step) {
+      case 1:
+        return (
+          <CheckoutLoginForm
+            setNextStep={() => setActiveStep(activeStep + 1)}
+          />
+        );
+
+      case 2:
+        return (
+          <ShippingForm setNextStep={() => setActiveStep(activeStep + 1)} />
+        );
+
+      case 3:
+        break;
+
+      default:
+        return null;
+    }
+  }
 
   return (
     <VStack px="10%" py={20} gap={10}>
-      <Stepper colorScheme='blackAlpha' index={activeStep} border={"1px"} p={4}>
+      <Stepper colorScheme="blackAlpha" index={activeStep} border={"1px"} p={4}>
         {steps.map((step, index) => (
           <Step key={index}>
             <StepIndicator>
@@ -58,8 +75,7 @@ export default function Home() {
         ))}
       </Stepper>
 
-      <ShippingForm setNextStep={() => setActiveStep(activeStep + 1)}/>
-      
+      {getStepComponent(activeStep)}
     </VStack>
   );
 }
