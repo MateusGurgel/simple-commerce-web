@@ -2,7 +2,8 @@ import Product from "../interfaces/Product";
 import { useSelector } from "react-redux";
 
 const ADD_TO_CART = "cart/ADD_TO_CART";
-const ADD_address_TO_CART = "cart/ADD_address_TO_CART";
+const ADD_PAYMENT_METHOD_TO_CART = "cart/ADD_PAYMENT_METHOD_TO_CART";
+const ADD_ADDRESS_TO_CART = "cart/ADD_ADDRESS_TO_CART";
 const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART";
 const UPDATE_QUANTITY = "cart/UPDATE_QUANTITY";
 
@@ -12,8 +13,13 @@ interface AddToCartAction {
   payload: Product;
 }
 
-interface addressToCartAction {
-  type: typeof ADD_address_TO_CART;
+interface AddAddressToCartAction {
+  type: typeof ADD_ADDRESS_TO_CART;
+  payload: string;
+}
+
+interface AddPaymentMethodToCartAction {
+  type: typeof ADD_PAYMENT_METHOD_TO_CART;
   payload: string;
 }
 
@@ -33,7 +39,8 @@ interface UpdateQuantityAction {
 // Union type of all cart actions
 type CartActionTypes =
   | AddToCartAction
-  | addressToCartAction
+  | AddAddressToCartAction
+  | AddPaymentMethodToCartAction
   | RemoveFromCartAction
   | UpdateQuantityAction;
 
@@ -44,7 +51,12 @@ const addToCart = (product: Product): CartActionTypes => ({
 });
 
 const addressToCart = (address: string): CartActionTypes => ({
-  type: ADD_address_TO_CART,
+  type: ADD_ADDRESS_TO_CART,
+  payload: address,
+});
+
+const addPaymentMethodToCart = (address: string): CartActionTypes => ({
+  type: ADD_PAYMENT_METHOD_TO_CART,
   payload: address,
 });
 
@@ -73,8 +85,9 @@ interface CartItem {
 interface CartState {
   items : CartItem[];
   address: string;
+  paymentMethod: string;
  }
-const initialState : CartState = {items: [], address: ""};
+const initialState : CartState = {items: [], address: "", paymentMethod: ""};
 
 const cartReducer = (
   state = initialState,
@@ -105,9 +118,13 @@ const cartReducer = (
 
       return {...state};
 
-    case ADD_address_TO_CART:
+    case ADD_ADDRESS_TO_CART:
       const address = action.payload;
       return { ...state, address };
+
+    case ADD_PAYMENT_METHOD_TO_CART:
+      const paymentMethod = action.payload;
+      return { ...state, paymentMethod}
 
     case REMOVE_FROM_CART:
       const removeItemId = action.payload;
@@ -139,5 +156,5 @@ function useCartState() {
   return cartState;
 }
 
-export { addToCart, updateQuantity, removeFromCart, useCartState, addressToCart };
+export { addToCart, updateQuantity, removeFromCart, useCartState, addressToCart, addPaymentMethodToCart };
 export default cartReducer;

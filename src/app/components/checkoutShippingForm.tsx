@@ -172,10 +172,6 @@ export default function ShippingForm({setNextStep} : ShippingFormProps) {
                 )}
               </Field>
               <Button type="submit">Confirm</Button>
-              <Link
-                href={"/register"}
-                className="underline"
-              >{`Don't have an account yet?`}</Link>
             </Stack>
           </Form>
         )}

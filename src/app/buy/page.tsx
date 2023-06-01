@@ -14,15 +14,15 @@ import {
   VStack,
   useSteps,
 } from "@chakra-ui/react";
-import ShippingForm from "../components/shippingForm";
+import ShippingForm from "../components/checkoutShippingForm";
 import CheckoutLoginForm from "../components/checkoutLoginForm";
+import CheckoutPaymentOptionForm from "../components/checkoutPaymentOptionForm";
 
 export default function Home() {
   const steps = [
     { title: "Log in", description: "login" },
     { title: "Shipping", description: "Address" },
-    { title: "Second", description: "Date & Time" },
-    { title: "Third", description: "Select Rooms" },
+    { title: "Payment", description: "payment method" },
   ];
 
   const { activeStep, setActiveStep } = useSteps({
@@ -45,7 +45,9 @@ export default function Home() {
         );
 
       case 3:
-        break;
+        return (
+          <CheckoutPaymentOptionForm setNextStep={() => setActiveStep(activeStep + 1)} />
+        );
 
       default:
         return null;
@@ -54,7 +56,7 @@ export default function Home() {
 
   return (
     <VStack px="10%" py={20} gap={10}>
-      <Stepper colorScheme="blackAlpha" index={activeStep} border={"1px"} p={4}>
+      <Stepper colorScheme="blackAlpha" index={activeStep} p={4}>
         {steps.map((step, index) => (
           <Step key={index}>
             <StepIndicator>

@@ -8,8 +8,10 @@ import {
   Link,
   Stack,
   Text,
+  Button,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
-import Button from "../components/button";
 import {
   Field,
   FieldInputProps,
@@ -21,7 +23,6 @@ import {
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { login, useUserState } from "../redux/user";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 interface ShippingFormProps {
@@ -50,6 +51,7 @@ export default function CheckoutLoginForm({ setNextStep }: ShippingFormProps) {
     if (user) {
       setNextStep();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   function handleOnSubmit(
@@ -120,7 +122,17 @@ export default function CheckoutLoginForm({ setNextStep }: ShippingFormProps) {
               <Text fontSize="md" color="red">
                 {error}
               </Text>
-              <Button disabled={isLoading}>Login</Button>
+
+              {isLoading ? (
+                <Center>
+                  <Spinner size={"lg"} />
+                </Center>
+              ) : (
+                <Button type="submit" disabled={isLoading}>
+                  Login
+                </Button>
+              )}
+
               <Link
                 href={"/register"}
                 className="underline"
