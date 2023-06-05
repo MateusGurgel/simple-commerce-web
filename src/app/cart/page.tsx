@@ -5,9 +5,11 @@ import Button from "../components/button";
 import OrderItemCard from "../components/OrderItemCard";
 import { useEffect, useState } from "react";
 import { useCartState } from "../redux/cart";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const cartState = useCartState();
+  const router = useRouter();
   const [totalValue, setTotalValue] = useState(0);
 
   useEffect(() => {
@@ -16,6 +18,10 @@ export default function Home() {
       setTotalValue((prev) => prev + item.price * item.quantity);
     });
   }, [cartState]);
+
+  function onBuy() {
+    router.push("/buy");
+  }
 
   return (
     <VStack px="10%" py={8} gap={10}>
@@ -32,7 +38,7 @@ export default function Home() {
         ))}
 
       <HStack w="full" py={4} px={16} gap={6} shadow="lg">
-        <Button>Buy</Button>
+        <Button OnClick={onBuy}>Buy</Button>
         <Box p={4} minW={140}>
           <h6>Total Value</h6>
           <Heading as="h1" size="md" fontWeight="semibold">
