@@ -5,20 +5,9 @@ import {
   RadioGroup,
   Stack,
   Button,
-  Box,
+  Heading,
 } from "@chakra-ui/react";
-import {
-  Field,
-  FieldInputProps,
-  Form,
-  Formik,
-  FormikHelpers,
-  FormikProps,
-} from "formik";
 import { useDispatch } from "react-redux";
-import * as Yup from "yup";
-import { login, useUserState } from "../redux/user";
-import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { addPaymentMethodToCart } from "../redux/cart";
 
@@ -34,22 +23,27 @@ export default function CheckoutPaymentOptionForm({
 
   function handleOnConfirm() {
     dispatch<any>(addPaymentMethodToCart(paymentMethod));
-    setNextStep()
+    setNextStep();
   }
 
   return (
-    <Stack w={"sm"} py={10} px={4} gap={10} >
-        <RadioGroup onChange={setPaymentMethod} value={paymentMethod}>
-          <Stack>
-            <Radio value="PayPal" colorScheme="blackAlpha">
-              PayPal or CreditCard
-            </Radio>
-            <Radio value="Stripe" colorScheme="blackAlpha">
-              Stripe
-            </Radio>
-          </Stack>
-        </RadioGroup>
-        <Button w={"full"} onClick={handleOnConfirm} >Confirm</Button>
+    <Stack w={"sm"} py={10} px={4} gap={5}>
+      <Heading size={"sm"} fontWeight={"semibold"}>
+        Payment Method
+      </Heading>
+      <RadioGroup onChange={setPaymentMethod} value={paymentMethod}>
+        <Stack>
+          <Radio value="PayPal" colorScheme="blackAlpha">
+            PayPal or CreditCard
+          </Radio>
+          <Radio value="Stripe" colorScheme="blackAlpha">
+            Stripe
+          </Radio>
+        </Stack>
+      </RadioGroup>
+      <Button w={"full"} onClick={handleOnConfirm}>
+        Place Order
+      </Button>
     </Stack>
   );
 }

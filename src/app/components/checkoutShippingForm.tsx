@@ -21,8 +21,8 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { addressToCart } from "../redux/cart";
 
-interface ShippingFormProps{
-    setNextStep: () => void
+interface ShippingFormProps {
+  setNextStep: () => void;
 }
 
 interface FormProps {
@@ -54,14 +54,14 @@ const SignInSchema = Yup.object().shape({
     .required("Required"),
 });
 
-export default function ShippingForm({setNextStep} : ShippingFormProps) {
+export default function ShippingForm({ setNextStep }: ShippingFormProps) {
   const dispatch = useDispatch();
 
   function handleOnSubmit(
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) {
-    const addressValue = `${values.address}, ${values.city}, ${values.country}, ${values.postalCode}`
+    const addressValue = `${values.address}, ${values.city}, ${values.country}, ${values.postalCode}`;
     dispatch<any>(addressToCart(addressValue));
     setNextStep();
     actions.setSubmitting(false);
@@ -108,9 +108,7 @@ export default function ShippingForm({setNextStep} : ShippingFormProps) {
                   form: FormikProps<FormProps>;
                 }) => (
                   <FormControl
-                    isInvalid={
-                      !!(form.errors.city && form.touched.city)
-                    }
+                    isInvalid={!!(form.errors.city && form.touched.city)}
                   >
                     <FormLabel>City</FormLabel>
                     <Input
@@ -143,7 +141,9 @@ export default function ShippingForm({setNextStep} : ShippingFormProps) {
                       placeholder="Postal Code"
                       size="lg"
                     />
-                    <FormErrorMessage>{form.errors.postalCode}</FormErrorMessage>
+                    <FormErrorMessage>
+                      {form.errors.postalCode}
+                    </FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
@@ -156,9 +156,7 @@ export default function ShippingForm({setNextStep} : ShippingFormProps) {
                   form: FormikProps<FormProps>;
                 }) => (
                   <FormControl
-                    isInvalid={
-                      !!(form.errors.country && form.touched.country)
-                    }
+                    isInvalid={!!(form.errors.country && form.touched.country)}
                   >
                     <FormLabel>Country</FormLabel>
                     <Input

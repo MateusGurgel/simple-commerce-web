@@ -22,7 +22,7 @@ export default function Home() {
   const steps = [
     { title: "Log in", description: "login" },
     { title: "Shipping", description: "Address" },
-    { title: "Payment", description: "payment method" },
+    { title: "Place Order", description: "payment method" },
   ];
 
   const { activeStep, setActiveStep } = useSteps({
@@ -46,7 +46,9 @@ export default function Home() {
 
       case 3:
         return (
-          <CheckoutPaymentOptionForm setNextStep={() => setActiveStep(activeStep + 1)} />
+          <CheckoutPaymentOptionForm
+            setNextStep={() => setActiveStep(activeStep + 1)}
+          />
         );
 
       default:
