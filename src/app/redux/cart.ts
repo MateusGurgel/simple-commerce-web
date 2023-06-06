@@ -6,11 +6,16 @@ const ADD_PAYMENT_METHOD_TO_CART = "cart/ADD_PAYMENT_METHOD_TO_CART";
 const ADD_ADDRESS_TO_CART = "cart/ADD_ADDRESS_TO_CART";
 const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART";
 const UPDATE_QUANTITY = "cart/UPDATE_QUANTITY";
+const CLEAR_CART = "cart/CLEAR_CART";
 
 // Action interfaces
 interface AddToCartAction {
   type: typeof ADD_TO_CART;
   payload: Product;
+}
+
+interface ClearCartAction {
+  type: typeof CLEAR_CART;
 }
 
 interface AddAddressToCartAction {
@@ -42,12 +47,17 @@ type CartActionTypes =
   | AddAddressToCartAction
   | AddPaymentMethodToCartAction
   | RemoveFromCartAction
-  | UpdateQuantityAction;
+  | UpdateQuantityAction
+  | ClearCartAction;
 
 //Action creators
 const addToCart = (product: Product): CartActionTypes => ({
   type: ADD_TO_CART,
   payload: product,
+});
+
+const clearCart = (): CartActionTypes => ({
+  type: "cart/CLEAR_CART",
 });
 
 const addressToCart = (address: string): CartActionTypes => ({
@@ -83,11 +93,11 @@ interface CartItem {
 }
 
 interface CartState {
-  items : CartItem[];
+  items: CartItem[];
   address: string;
   paymentMethod: string;
- }
-const initialState : CartState = {items: [], address: "", paymentMethod: ""};
+}
+const initialState: CartState = { items: [], address: "", paymentMethod: "" };
 
 const cartReducer = (
   state = initialState,
@@ -116,7 +126,10 @@ const cartReducer = (
         state.items.push({ ...item, quantity: 1 });
       }
 
-      return {...state};
+      return { ...state };
+
+    case CLEAR_CART:
+      return initialState;
 
     case ADD_ADDRESS_TO_CART:
       const address = action.payload;
@@ -124,12 +137,14 @@ const cartReducer = (
 
     case ADD_PAYMENT_METHOD_TO_CART:
       const paymentMethod = action.payload;
-      return { ...state, paymentMethod}
+      return { ...state, paymentMethod };
 
     case REMOVE_FROM_CART:
       const removeItemId = action.payload;
-      const updatedItems = state.items.filter((item) => item.id !== removeItemId);
-      return {...state, items: updatedItems};
+      const updatedItems = state.items.filter(
+        (item) => item.id !== removeItemId
+      );
+      return { ...state, items: updatedItems };
 
     case UPDATE_QUANTITY:
       const { productId, quantity } = action.payload;
@@ -140,7 +155,7 @@ const cartReducer = (
 
         return item;
       });
-      return {...state, items: updatedState};
+      return { ...state, items: updatedState };
 
     default:
       return state;
@@ -156,5 +171,13 @@ function useCartState() {
   return cartState;
 }
 
-export { addToCart, updateQuantity, removeFromCart, useCartState, addressToCart, addPaymentMethodToCart };
+export {
+  addToCart,
+  updateQuantity,
+  removeFromCart,
+  useCartState,
+  addressToCart,
+  addPaymentMethodToCart,
+  clearCart,
+};
 export default cartReducer;
