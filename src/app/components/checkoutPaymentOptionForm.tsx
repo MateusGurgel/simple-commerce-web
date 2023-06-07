@@ -1,15 +1,8 @@
 "use client";
-import {
-  Center,
-  Radio,
-  RadioGroup,
-  Stack,
-  Button,
-  Heading,
-} from "@chakra-ui/react";
+import { Radio, RadioGroup, Stack, Button, Heading } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { FormEvent, useEffect, useState } from "react";
-import { addPaymentMethodToCart } from "../redux/cart";
+import { useState } from "react";
+import { addPaymentMethodToCart, clearCart } from "../redux/cart";
 
 interface ShippingFormProps {
   setNextStep: () => void;
@@ -23,6 +16,7 @@ export default function CheckoutPaymentOptionForm({
 
   function handleOnConfirm() {
     dispatch<any>(addPaymentMethodToCart(paymentMethod));
+    dispatch<any>(clearCart());
     setNextStep();
   }
 

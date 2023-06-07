@@ -14,7 +14,7 @@ import {
   VStack,
   useSteps,
 } from "@chakra-ui/react";
-import ShippingForm from "../components/checkoutShippingForm";
+import PlaceOrderForm from "../components/checkoutPlaceOrderForm";
 import CheckoutLoginForm from "../components/checkoutLoginForm";
 import CheckoutPaymentOptionForm from "../components/checkoutPaymentOptionForm";
 
@@ -41,7 +41,7 @@ export default function Home() {
 
       case 2:
         return (
-          <ShippingForm setNextStep={() => setActiveStep(activeStep + 1)} />
+          <PlaceOrderForm setNextStep={() => setActiveStep(activeStep + 1)} />
         );
 
       case 3:

@@ -54,7 +54,7 @@ const SignInSchema = Yup.object().shape({
     .required("Required"),
 });
 
-export default function ShippingForm({ setNextStep }: ShippingFormProps) {
+export default function PlaceOrderForm({ setNextStep }: ShippingFormProps) {
   const dispatch = useDispatch();
 
   function handleOnSubmit(
