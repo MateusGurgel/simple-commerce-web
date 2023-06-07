@@ -14,9 +14,10 @@ import {
   VStack,
   useSteps,
 } from "@chakra-ui/react";
-import PlaceOrderForm from "../components/checkoutPlaceOrderForm";
+import PlaceOrderForm from "../components/checkoutShippingForm";
 import CheckoutLoginForm from "../components/checkoutLoginForm";
-import CheckoutPaymentOptionForm from "../components/checkoutPaymentOptionForm";
+import CheckoutPlaceOrderForm from "../components/checkoutPlaceOrderForm";
+import ShippingForm from "../components/checkoutShippingForm";
 
 export default function Home() {
   const steps = [
@@ -41,12 +42,12 @@ export default function Home() {
 
       case 2:
         return (
-          <PlaceOrderForm setNextStep={() => setActiveStep(activeStep + 1)} />
+          <ShippingForm setNextStep={() => setActiveStep(activeStep + 1)} />
         );
 
       case 3:
         return (
-          <CheckoutPaymentOptionForm
+          <CheckoutPlaceOrderForm
             setNextStep={() => setActiveStep(activeStep + 1)}
           />
         );

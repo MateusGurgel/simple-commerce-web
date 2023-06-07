@@ -168,7 +168,7 @@ const userReducer = (
 ): UserState => {
   switch (action.type) {
     case REGISTER_USER_REQUEST:
-    return {
+      return {
         ...state,
         isLoading: true,
         error: null,

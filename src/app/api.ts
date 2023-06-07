@@ -4,6 +4,10 @@ const api = axios.create({
   baseURL: "http://127.0.0.1:3333",
 });
 
+function setApiToken(token: string) {
+  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
+
 const fetcher = async <T>(url: string): Promise<T> => {
   try {
     const response: AxiosResponse<T> = await api.get(url);
@@ -16,4 +20,4 @@ const fetcher = async <T>(url: string): Promise<T> => {
   }
 };
 
-export { api, fetcher };
+export { api, fetcher, setApiToken };
