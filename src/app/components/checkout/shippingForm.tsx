@@ -1,4 +1,6 @@
 "use client";
+import useAuth from "@/app/hooks/useAuth";
+import { addressToCart } from "@/app/redux/cart";
 import {
   Box,
   Button,
@@ -6,7 +8,6 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  Link,
   Stack,
 } from "@chakra-ui/react";
 import {
@@ -19,9 +20,6 @@ import {
 } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { addressToCart } from "../redux/cart";
-import { api } from "../api";
-import useAuth from "../hooks/useAuth";
 
 interface ShippingFormProps {
   setNextStep: () => void;

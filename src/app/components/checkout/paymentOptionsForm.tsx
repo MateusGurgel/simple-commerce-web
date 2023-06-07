@@ -2,37 +2,24 @@
 import { Radio, RadioGroup, Stack, Button, Heading } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { addPaymentMethodToCart, clearCart } from "../redux/cart";
-import { api } from "../api";
-import useAuth from "../hooks/useAuth";
+import useAuth from "@/app/hooks/useAuth";
+import { addPaymentMethodToCart } from "@/app/redux/cart";
 
 interface ShippingFormProps {
   setNextStep: () => void;
 }
 
-export default function CheckoutPlaceOrderForm({
+export default function CheckoutPaymentOptionsForm({
   setNextStep,
 }: ShippingFormProps) {
   useAuth();
+
   const dispatch = useDispatch();
   const [paymentMethod, setPaymentMethod] = useState<string>("PayPal");
 
   async function handleOnConfirm() {
     dispatch<any>(addPaymentMethodToCart(paymentMethod));
-
-    try {
-      await api.post("orders", {
-        shippingAddress: "abogus",
-        paymentMethod: "PayPal  ",
-        products: [
-          { productId: 1, quantity: 20 },
-          { productId: 1, quantity: 20 },
-        ],
-      });
-
-      dispatch<any>(clearCart());
-      setNextStep();
-    } catch (error) {}
+    setNextStep();
   }
 
   return (
@@ -51,7 +38,7 @@ export default function CheckoutPlaceOrderForm({
         </Stack>
       </RadioGroup>
       <Button w={"full"} onClick={handleOnConfirm}>
-        Place Order
+        Confirm
       </Button>
     </Stack>
   );

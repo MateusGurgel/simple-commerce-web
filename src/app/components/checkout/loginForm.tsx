@@ -22,7 +22,7 @@ import {
 } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { login, useUserState } from "../redux/user";
+import { login, useUserState } from "../../redux/user";
 import { useEffect } from "react";
 
 interface ShippingFormProps {
@@ -51,7 +51,7 @@ export default function CheckoutLoginForm({ setNextStep }: ShippingFormProps) {
     if (user) {
       setNextStep();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   function handleOnSubmit(
