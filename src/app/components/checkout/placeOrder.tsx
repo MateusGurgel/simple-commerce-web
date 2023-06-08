@@ -1,10 +1,19 @@
 import { api } from "@/app/api";
 import { clearCart, useCartState } from "@/app/redux/cart";
-import { Box, Button, Heading, Input, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Input,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 
 export default function CheckoutPlaceOrder() {
   const { cart } = useCartState();
+  const toast = useToast();
   const dispatch = useDispatch();
 
   async function handlePlaceOrder() {
@@ -19,7 +28,14 @@ export default function CheckoutPlaceOrder() {
       });
 
       dispatch<any>(clearCart());
-    } catch (error) {}
+    } catch (error) {
+      toast({
+        title: "An error has occurred, please try again later",
+        position: "top-right",
+        status: "error",
+        isClosable: true,
+      });
+    }
   }
 
   return (
