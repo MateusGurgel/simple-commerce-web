@@ -16,8 +16,8 @@ import {
 } from "@chakra-ui/react";
 import ShippingForm from "../components/checkout/shippingForm";
 import CheckoutPaymentOptionsForm from "../components/checkout/paymentOptionsForm";
-import CheckoutLoginForm from "../components/checkout/LoginForm";
 import CheckoutPlaceOrder from "../components/checkout/placeOrder";
+import CheckoutLoginForm from "../components/checkout/loginForm";
 
 export default function Home() {
   const steps = [

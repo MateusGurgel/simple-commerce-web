@@ -1,6 +1,6 @@
 import { api } from "@/app/api";
 import { clearCart, useCartState } from "@/app/redux/cart";
-import { Button, Heading, Stack } from "@chakra-ui/react";
+import { Box, Button, Heading, Input, Stack, Text } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 
 export default function CheckoutPlaceOrder() {
@@ -19,7 +19,6 @@ export default function CheckoutPlaceOrder() {
       });
 
       dispatch<any>(clearCart());
-      //do something
     } catch (error) {}
   }
 
@@ -28,6 +27,14 @@ export default function CheckoutPlaceOrder() {
       <Heading size={"sm"} fontWeight={"semibold"}>
         Confirm Order
       </Heading>
+
+      <Box>
+        <Text mb="8px">Address:</Text>
+        <Input value={cart.address} disabled />
+        <Text mb="8px">Payment Method:</Text>
+        <Input value={cart.paymentMethod} disabled />
+      </Box>
+
       <Button w={"full"} onClick={handlePlaceOrder}>
         Place Order
       </Button>
