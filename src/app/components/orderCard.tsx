@@ -5,7 +5,7 @@ import moment from "moment";
 interface OrderItemCardProps {
   is_paid: boolean;
   payment_method: string;
-  created_at: Date;
+  created_at: string;
 }
 
 export default function OrderCard(props: OrderItemCardProps) {
