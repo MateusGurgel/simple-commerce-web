@@ -215,6 +215,7 @@ export default function Home() {
                   orders.map((order) => (
                     <OrderCard
                       key={order.id}
+                      id={order.id}
                       is_paid={order.is_paid}
                       payment_method={order.payment_method}
                       created_at={order.created_at}
