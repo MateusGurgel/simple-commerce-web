@@ -1,4 +1,6 @@
-interface Order {
+import OrderProduct from "./OrderProducts";
+
+export default interface Order {
   id: number;
   is_paid: boolean;
   user_id: number;
@@ -7,4 +9,5 @@ interface Order {
   total_price: number;
   created_at: string;
   updated_at: string;
+  orderProduct: OrderProduct[];
 }
