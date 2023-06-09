@@ -28,6 +28,7 @@ import useSWR from "swr";
 import useAuth from "../hooks/useAuth";
 import { fetcher } from "../api";
 import OrderCard from "../components/orderCard";
+import Order from "../interfaces/Order";
 
 const UpdateSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),

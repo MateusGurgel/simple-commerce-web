@@ -5,16 +5,14 @@ import { api, setApiToken } from "../api";
 
 export default function () {
   const router = useRouter();
-  const userState = useUserState();
+  const { user } = useUserState();
 
   useEffect(() => {
-    if (!userState.user) {
+    if (!user) {
       router.back();
       return;
     }
 
-    console.log(userState.user.token);
-
-    setApiToken(userState.user.token);
+    setApiToken(user.token);
   }, []);
 }

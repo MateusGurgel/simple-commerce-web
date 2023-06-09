@@ -1,41 +1,61 @@
 "use client";
 
+import { fetcher } from "@/app/api";
+import useSWR from "swr";
 import {
-  Heading,
-  SimpleGrid,
-  Divider,
-  VStack,
-  Center,
-  Table,
   Tr,
-  Thead,
   Th,
   Td,
   Tbody,
+  Table,
+  Thead,
+  VStack,
+  Center,
+  Heading,
+  Divider,
+  SimpleGrid,
   TableContainer,
+  Spinner,
 } from "@chakra-ui/react";
+import useAuth from "@/app/hooks/useAuth";
+import Order from "@/app/interfaces/Order";
+import LoadingScreen from "@/app/components/loadingScreen";
 
-export default function Home() {
+interface ordersProps {
+  params: {
+    order: string;
+  };
+}
+
+export default function Home({ params }: ordersProps) {
+  useAuth();
+  const { data: order, isLoading } = useSWR<Order>(
+    "/orders/" + params.order,
+    fetcher
+  );
+
+  if (isLoading || !order) {
+    return <LoadingScreen />;
+  }
+
   return (
     <Center textAlign="center">
       <SimpleGrid columns={[1, null, 2]} m="10" spacing={10}>
         <VStack maxW={600} alignItems={"flex-start"} gap="2">
           <Heading fontWeight="semibold" as="h1" size="md">
-            Order: 5F721AF77829920004C89E0C
+            Order: {order.id}
           </Heading>
           <br />
           <Heading fontWeight="normal" as="h2" size="md">
             Shipping
           </Heading>
-          <h2>Name:</h2>
-          <h2>Email:</h2>
-          <h2>Address:</h2>
+          <h2>Address: {order.shipping_address}</h2>
           <Divider orientation="horizontal" />
           <Heading fontWeight="semibold" as="h1" size="md">
             Payment Method
           </Heading>
-          <h2>Method:</h2>
-          <h2>Paid on:</h2>
+          <h2>Method: {order.payment_method}</h2>
+          <h2>is Paid: {order.is_paid ? "yes" : "not yet"}</h2>
         </VStack>
         <VStack
           maxW={600}
@@ -53,16 +73,14 @@ export default function Home() {
                 <Tr>
                   <Th isNumeric>Items</Th>
                   <Th isNumeric>Shipping</Th>
-                  <Th isNumeric>Tax</Th>
                   <Th isNumeric>Total</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 <Tr>
-                  <Td>133.32</Td>
+                  <Td>{order.total_price}</Td>
                   <Td>0</Td>
-                  <Td>28.5</Td>
-                  <Td>161.82</Td>
+                  <Td>{order.total_price}</Td>
                 </Tr>
               </Tbody>
             </Table>
@@ -74,19 +92,19 @@ export default function Home() {
             <Table variant="simple">
               <Thead>
                 <Tr>
-                  <Th>Picture</Th>
                   <Th>Name</Th>
                   <Th isNumeric>Quantity</Th>
                   <Th isNumeric>Price</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>{"[image]"}</Td>
-                  <Td>Airpods</Td>
-                  <Td>1</Td>
-                  <Td>161.82</Td>
-                </Tr>
+                {order.orderProduct.map((orderProduct) => (
+                  <Tr>
+                    <Td>{orderProduct.product.name}</Td>
+                    <Td>{orderProduct.quantity}</Td>
+                    <Td>{orderProduct.product.price}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>
