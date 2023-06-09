@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Box, HStack, Heading, Text, Spacer, Divider } from "@chakra-ui/react";
-import { title } from "process";
 
 interface OrderItemCardProps {
   image: string;

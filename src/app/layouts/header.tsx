@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { SingOutUser, useUserState } from "../redux/user";
 import { useDispatch } from "react-redux";
+import { HiUser } from "react-icons/hi";
 
 export default function Header() {
-  const {user} = useUserState();
+  const { user } = useUserState();
   const dispath = useDispatch();
-  
+
   function handleLogout() {
-    dispath<any>(SingOutUser())
+    dispath<any>(SingOutUser());
   }
 
   return (
@@ -35,9 +36,18 @@ export default function Header() {
               </Link>
             </>
           ) : (
-            <a className="font-light font-sans text-base cursor-pointer" onClick={handleLogout} >
-              Sign out
-            </a>
+            <>
+              <a
+                className="font-light font-sans text-base cursor-pointer"
+                onClick={handleLogout}
+              >
+                Sign out
+              </a>
+
+              <Link className="flex justify-center items-center" href="profile">
+                <HiUser size={20} />
+              </Link>
+            </>
           )}
         </nav>
       </div>
