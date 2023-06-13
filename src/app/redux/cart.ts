@@ -129,7 +129,7 @@ const cartReducer = (
       return { ...state };
 
     case CLEAR_CART:
-      return initialState;
+      return { items: [], address: "", paymentMethod: "" };
 
     case ADD_ADDRESS_TO_CART:
       const address = action.payload;
