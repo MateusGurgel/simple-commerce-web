@@ -1,5 +1,5 @@
-import { Box, HStack, Heading, Text, Spacer, Divider } from "@chakra-ui/react";
 import Link from "next/link";
+import { Box, HStack, Heading, Text, Spacer } from "@chakra-ui/react";
 import { AiOutlineCheckCircle, AiOutlineFieldTime } from "react-icons/ai";
 
 interface OrderItemCardProps {

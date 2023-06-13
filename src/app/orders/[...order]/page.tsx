@@ -29,6 +29,7 @@ interface ordersProps {
 
 export default function Home({ params }: ordersProps) {
   useAuth();
+
   const { data: order, isLoading } = useSWR<Order>(
     "/orders/" + params.order,
     fetcher
