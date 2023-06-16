@@ -1,5 +1,6 @@
-import { api } from "@/app/api";
+import { api, fetcher } from "@/app/api";
 import Order from "@/app/interfaces/Order";
+import PaypalInfo from "@/app/interfaces/PaypalInfo";
 import { clearCart, useCartState } from "@/app/redux/cart";
 import {
   Box,
@@ -10,37 +11,67 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import useSWR from "swr";
 
 export default function CheckoutPlaceOrder() {
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const { cart } = useCartState();
   const toast = useToast();
   const dispatch = useDispatch();
   const router = useRouter();
 
-  async function handlePlaceOrder() {
-    try {
-      const order = await api.post<Order>("orders", {
+  const { data: paypalInfo, isLoading: paypalIsLoading } = useSWR<PaypalInfo>(
+    "api/paypal/config",
+    fetcher
+  );
+
+  useEffect(() => {
+    if (!paypalIsLoading && paypalInfo) {
+      paypalDispatch({
+        type: "resetOptions",
+        value: {
+          clientId: paypalInfo.clientId,
+          components: "buttons",
+          currency: "BRL",
+          vault: false,
+        },
+      });
+    }
+  }, [paypalIsLoading, paypalInfo]);
+
+  async function PlaceOrder() {
+    return await api
+      .post<Order>("orders", {
         shippingAddress: cart.address,
         paymentMethod: cart.paymentMethod,
         products: cart.items.map(({ id, quantity }) => ({
           productId: id,
           quantity,
         })),
+      })
+      .then((order) => {
+        return order.data.check_out_order_id;
       });
+  }
 
-      await dispatch<any>(clearCart());
-
-      router.push(`pay/${order.data.id}`);
-    } catch (error) {
-      toast({
-        title: "An error has occurred, please try again later",
-        position: "top-right",
-        status: "error",
-        isClosable: true,
+  async function handleOnAprove(data: any) {
+    return await api
+      .post<any>(`api/paypal/capturePayment`, {
+        id: data.orderID,
+      })
+      .then(() => {
+        toast({
+          title:
+            "Purchase successful! Your order has been confirmed and is being processed.",
+          position: "top-right",
+          status: "success",
+          isClosable: true,
+        });
       });
-    }
   }
 
   return (
@@ -56,9 +87,7 @@ export default function CheckoutPlaceOrder() {
         <Input value={cart.paymentMethod} disabled />
       </Box>
 
-      <Button w={"full"} onClick={handlePlaceOrder}>
-        Place Order
-      </Button>
+      <PayPalButtons createOrder={PlaceOrder} onApprove={handleOnAprove} />
     </Stack>
   );
 }

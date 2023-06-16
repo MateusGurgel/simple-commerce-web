@@ -12,9 +12,7 @@ export function Providers({ children }) {
     <CacheProvider>
       <ChakraProvider>
         <Provider store={store}>
-          <PayPalScriptProvider
-            options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}
-          >
+          <PayPalScriptProvider deferLoading={true}>
             <PersistGate loading={null} persistor={persistor}>
               {children}
             </PersistGate>
