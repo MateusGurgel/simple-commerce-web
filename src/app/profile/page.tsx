@@ -12,17 +12,28 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import useSWR from "swr";
-import { fetcher } from "../api";
+import { api, fetcher } from "../api";
 import useAuth from "../hooks/useAuth";
 import Order from "../interfaces/Order";
-import { useUserState } from "../redux/user";
+import { SingOutUser, useUserState } from "../redux/user";
 import OrderCard from "../components/orderCard";
+import Button from "../components/button";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   useAuth();
 
-  const { user } = useUserState();
   const { data: orders } = useSWR<Order[]>("/myOrders", fetcher);
+  const dispath = useDispatch();
+  const route = useRouter();
+  const { user } = useUserState();
+
+  async function handleDelete() {
+    await api.delete("/users/" + user?.id);
+    await dispath<any>(SingOutUser());
+    route.push("/");
+  }
 
   return (
     <Flex justifyContent={"center"} p={"16"}>
@@ -52,6 +63,7 @@ export default function Home() {
                     value={user?.name}
                   />
                 </Box>
+                <Button OnClick={handleDelete}>Delete Account</Button>
               </Box>
             </TabPanel>
 

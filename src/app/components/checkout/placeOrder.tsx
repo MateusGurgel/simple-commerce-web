@@ -1,27 +1,18 @@
+import useSWR from "swr";
+import { useEffect } from "react";
 import { api, fetcher } from "@/app/api";
 import Order from "@/app/interfaces/Order";
-import PaypalInfo from "@/app/interfaces/PaypalInfo";
-import { clearCart, useCartState } from "@/app/redux/cart";
-import {
-  Box,
-  Button,
-  Heading,
-  Input,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import useSWR from "swr";
+import LoadingScreen from "../loadingScreen";
+import { useCartState } from "@/app/redux/cart";
+import PaypalInfo from "@/app/interfaces/PaypalInfo";
+import { Box, Heading, Input, Stack, Text, useToast } from "@chakra-ui/react";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 export default function CheckoutPlaceOrder() {
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const { cart } = useCartState();
   const toast = useToast();
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const { data: paypalInfo, isLoading: paypalIsLoading } = useSWR<PaypalInfo>(
@@ -74,6 +65,10 @@ export default function CheckoutPlaceOrder() {
 
         router.push("/");
       });
+  }
+
+  if (isPending) {
+    return <LoadingScreen />;
   }
 
   return (
