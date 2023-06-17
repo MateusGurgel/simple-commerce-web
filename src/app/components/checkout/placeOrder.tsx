@@ -71,6 +71,8 @@ export default function CheckoutPlaceOrder() {
           status: "success",
           isClosable: true,
         });
+
+        router.push("/");
       });
   }
 
