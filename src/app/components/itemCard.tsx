@@ -1,6 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { VStack } from "@chakra-ui/react";
+import { VStack, useToast } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cart";
+import { api } from "../api";
+import Product from "../interfaces/Product";
+import { useRouter } from "next/navigation";
 
 interface ItemCardProps {
   title: string;
@@ -8,6 +13,26 @@ interface ItemCardProps {
 }
 
 export default function ItemCard(props: ItemCardProps) {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const toast = useToast();
+
+  async function handleOnBuy() {
+    try {
+      const product = await api.get<Product>("/products/" + props.itemID);
+      dispatch(addToCart(product.data));
+      router.push("/cart");
+    } catch (error) {
+      console.log("error");
+      toast({
+        title: "Something went wrong. Please try again later.",
+        status: "error",
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }
+
   return (
     <VStack
       justify="space-between"
@@ -25,13 +50,12 @@ export default function ItemCard(props: ItemCardProps) {
         <h1 className="font-normal text-gray-600">{props.title}</h1>
       </Link>
 
-      <Link
+      <button
         className="w-full p-2 bg-black text-center text-white font-thin text-lg"
-        //Add the item on the card before
-        href={`/cart`}
+        onClick={handleOnBuy}
       >
         Buy
-      </Link>
+      </button>
     </VStack>
   );
 }

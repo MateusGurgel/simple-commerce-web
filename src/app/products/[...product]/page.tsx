@@ -72,7 +72,7 @@ export default function Home({ params }: productsProps) {
 
           <Rating rate={data.rate} />
 
-          <Button OnClick={handleOnBuy}>Buy</Button>
+          <Button OnClick={handleOnBuy}>Add to cart</Button>
           <Stat>
             <StatLabel>Price</StatLabel>
             <StatNumber>R${data.price}</StatNumber>
