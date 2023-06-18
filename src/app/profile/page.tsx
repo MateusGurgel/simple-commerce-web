@@ -53,14 +53,14 @@ export default function Home() {
                     focusBorderColor="black"
                     placeholder="example@gmail.com"
                     size="lg"
-                    value={user?.email}
+                    defaultValue={user?.email}
                   />
                   <FormLabel>Full Name</FormLabel>
                   <Input
                     focusBorderColor="black"
                     placeholder="Name"
                     size="lg"
-                    value={user?.name}
+                    defaultValue={user?.name}
                   />
                 </Box>
                 <Button OnClick={handleDelete}>Delete Account</Button>

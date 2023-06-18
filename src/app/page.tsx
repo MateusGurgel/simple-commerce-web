@@ -6,8 +6,10 @@ import SquareCard from "./components/squareCard";
 import Product from "./interfaces/Product";
 import { fetcher } from "./api";
 import useSWR from "swr";
+import useSetupAuth from "./hooks/useSetupAuth";
 
 export default function Home() {
+  useSetupAuth();
   const { data, isLoading } = useSWR<Product[]>("/products", fetcher);
 
   return (
