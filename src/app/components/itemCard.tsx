@@ -23,7 +23,6 @@ export default function ItemCard(props: ItemCardProps) {
       dispatch(addToCart(product.data));
       router.push("/cart");
     } catch (error) {
-      console.log("error");
       toast({
         title: "Something went wrong. Please try again later.",
         status: "error",

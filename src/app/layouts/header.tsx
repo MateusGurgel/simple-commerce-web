@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { SingOutUser, useUserState } from "../redux/user";
+import { SingOutUser, useUserState } from "../redux/user"; //RiAdminFill
+import { RiAdminFill } from "react-icons/Ri"; //RiAdminFill
+
 import { useDispatch } from "react-redux";
-import { HiUser } from "react-icons/hi";
+import { HiUser, HiShoppingCart, HiLogout } from "react-icons/hi";
 
 export default function Header() {
   const { user } = useUserState();
@@ -21,8 +23,8 @@ export default function Header() {
         </Link>
 
         <nav className="flex gap-10">
-          <Link className="font-light font-sans text-base" href="cart">
-            Cart
+          <Link className="flex justify-center items-center" href="cart">
+            <HiShoppingCart size={20} />
           </Link>
 
           {!user ? (
@@ -37,16 +39,23 @@ export default function Header() {
             </>
           ) : (
             <>
-              <a
-                className="font-light font-sans text-base cursor-pointer"
-                onClick={handleLogout}
-              >
-                Sign out
-              </a>
-
               <Link className="flex justify-center items-center" href="profile">
                 <HiUser size={20} />
               </Link>
+              {user.is_admin && (
+                <Link
+                  className="flex justify-center items-center"
+                  href="admin/dashboard"
+                >
+                  <RiAdminFill size={20} />
+                </Link>
+              )}
+              <a
+                className="flex justify-center items-center pointer"
+                onClick={handleLogout}
+              >
+                <HiLogout size={20} />
+              </a>
             </>
           )}
         </nav>
