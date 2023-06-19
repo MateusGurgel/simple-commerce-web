@@ -100,7 +100,7 @@ export default function Home({ params }: ordersProps) {
               </Thead>
               <Tbody>
                 {order.orderProduct.map((orderProduct) => (
-                  <Tr>
+                  <Tr key={orderProduct.id}>
                     <Td>{orderProduct.product.name}</Td>
                     <Td>{orderProduct.quantity}</Td>
                     <Td>{orderProduct.product.price}</Td>

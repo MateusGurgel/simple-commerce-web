@@ -1,32 +1,15 @@
 "use client";
 
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Button,
-  useToast,
-} from "@chakra-ui/react";
-import useSWR from "swr";
-
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { HiChevronDoubleDown } from "react-icons/hi";
 import ProductPainel from "@/app/components/dashboard/productPainel";
+import OrderPainel from "@/app/components/dashboard/orderPainel";
 import UserPainel from "@/app/components/dashboard/userPainel";
 import useAdminAuth from "@/app/hooks/useAdminAuth";
 import Product from "@/app/interfaces/Product";
+import Order from "@/app/interfaces/Order";
 import User from "@/app/interfaces/User";
 import { fetcher } from "@/app/api";
-import OrderPainel from "@/app/components/dashboard/orderPainel";
-import Order from "@/app/interfaces/Order";
+import useSWR from "swr";
 
 export default function Home() {
   useAdminAuth();
