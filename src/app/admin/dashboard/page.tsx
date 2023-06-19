@@ -25,6 +25,8 @@ import useAdminAuth from "@/app/hooks/useAdminAuth";
 import Product from "@/app/interfaces/Product";
 import User from "@/app/interfaces/User";
 import { fetcher } from "@/app/api";
+import OrderPainel from "@/app/components/dashboard/orderPainel";
+import Order from "@/app/interfaces/Order";
 
 export default function Home() {
   useAdminAuth();
@@ -37,6 +39,10 @@ export default function Home() {
     "/products",
     fetcher
   );
+  const { data: orders, isLoading: isLoadingOrders } = useSWR<Order[]>(
+    "/orders",
+    fetcher
+  );
 
   return (
     <Box p={12}>
@@ -44,6 +50,7 @@ export default function Home() {
         <TabList>
           <Tab _selected={{ color: "white", bg: "black" }}>Users</Tab>
           <Tab _selected={{ color: "white", bg: "black" }}>Products</Tab>
+          <Tab _selected={{ color: "white", bg: "black" }}>Orders</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -51,6 +58,9 @@ export default function Home() {
           </TabPanel>
           <TabPanel>
             <ProductPainel products={products} />
+          </TabPanel>
+          <TabPanel>
+            <OrderPainel orders={orders} />
           </TabPanel>
         </TabPanels>
       </Tabs>
