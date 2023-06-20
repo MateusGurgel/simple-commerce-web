@@ -18,8 +18,6 @@ import {
   NumberInputStepper,
 } from "@chakra-ui/react";
 
-import { Button } from "@chakra-ui/react";
-
 export interface ProductShowProps {
   isOpen: boolean;
   onClose: () => void;

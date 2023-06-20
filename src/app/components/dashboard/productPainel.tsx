@@ -1,18 +1,7 @@
 "use client";
 import { api } from "@/app/api";
 import Product from "@/app/interfaces/Product";
-import { useUserState } from "@/app/redux/user";
-import {
-  Box,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, useDisclosure } from "@chakra-ui/react";
 
 import {
   Table,
@@ -30,9 +19,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { HiChevronDoubleDown } from "react-icons/hi";
-import OrderShow from "./modals/productShow";
 import { useState } from "react";
-import Order from "@/app/interfaces/Order";
 import ProductShow from "./modals/productShow";
 
 export interface ProductPainelProps {
@@ -44,11 +31,30 @@ export default function ProductPainel({ products }: ProductPainelProps) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const toast = useToast();
 
-  async function showDetails(productId: string) {
+  async function handleShowDetails(productId: string) {
     try {
       const order = await api.get<Product>("/products/" + productId);
       setSelectedProduct(order.data);
       onOpen();
+    } catch (error) {
+      toast({
+        title: "Something went wrong. Please try again later.",
+        status: "error",
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }
+
+  async function handleDeleteProduct(productId: string) {
+    try {
+      await api.delete("/products/" + productId);
+      toast({
+        title: "Action executed successfully.",
+        position: "top-right",
+        status: "success",
+        isClosable: true,
+      });
     } catch (error) {
       toast({
         title: "Something went wrong. Please try again later.",
@@ -90,9 +96,13 @@ export default function ProductPainel({ products }: ProductPainelProps) {
                         Actions
                       </MenuButton>
                       <MenuList>
-                        <MenuItem>Delete</MenuItem>
+                        <MenuItem
+                          onClick={() => handleDeleteProduct(product.id)}
+                        >
+                          Delete
+                        </MenuItem>
                         <MenuItem>Edit</MenuItem>
-                        <MenuItem onClick={() => showDetails(product.id)}>
+                        <MenuItem onClick={() => handleShowDetails(product.id)}>
                           Show Details
                         </MenuItem>
                       </MenuList>
