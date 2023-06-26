@@ -17,6 +17,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import Button from "../../button";
 import {
@@ -45,23 +46,40 @@ interface FormProps {
   price: number;
 }
 
-async function handleOnSubmit(
-  values: FormProps,
-  actions: FormikHelpers<FormProps>
-) {
-  console.log(values);
-  await api.patch("products/" + values.id, values);
-  actions.setSubmitting(false);
-}
-
 export default function ProductEdit({
   isOpen,
   onClose,
   product,
 }: ProductEditProps) {
+  const toast = useToast();
   if (!product) {
     return <></>;
   }
+
+  async function handleOnSubmit(
+    values: FormProps,
+    actions: FormikHelpers<FormProps>
+  ) {
+    actions.setSubmitting(false);
+
+    try {
+      await api.patch("products/" + values.id, values);
+      toast({
+        title: "Action executed successfully.",
+        position: "top-right",
+        status: "success",
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong. Please try again later.",
+        status: "error",
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }
+
   const initialValues = {
     id: product.id,
     name: product.name,
