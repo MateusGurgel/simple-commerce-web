@@ -21,13 +21,25 @@ import {
 import { HiChevronDoubleDown } from "react-icons/hi";
 import { useState } from "react";
 import ProductShow from "./modals/productShow";
+import ProductEdit from "./modals/productEdit";
 
 export interface ProductPainelProps {
   products: Product[] | undefined;
 }
 
 export default function ProductPainel({ products }: ProductPainelProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isShowOpen,
+    onOpen: onShowOpen,
+    onClose: onShowClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const toast = useToast();
 
@@ -35,7 +47,22 @@ export default function ProductPainel({ products }: ProductPainelProps) {
     try {
       const order = await api.get<Product>("/products/" + productId);
       setSelectedProduct(order.data);
-      onOpen();
+      onShowOpen();
+    } catch (error) {
+      toast({
+        title: "Something went wrong. Please try again later.",
+        status: "error",
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }
+
+  async function handleEditProduct(productId: string) {
+    try {
+      const order = await api.get<Product>("/products/" + productId);
+      setSelectedProduct(order.data);
+      onEditOpen();
     } catch (error) {
       toast({
         title: "Something went wrong. Please try again later.",
@@ -68,8 +95,13 @@ export default function ProductPainel({ products }: ProductPainelProps) {
   return (
     <>
       <ProductShow
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isShowOpen}
+        onClose={onShowClose}
+        product={selectedProduct}
+      />
+      <ProductEdit
+        isOpen={isEditOpen}
+        onClose={onEditClose}
         product={selectedProduct}
       />
 
@@ -101,7 +133,9 @@ export default function ProductPainel({ products }: ProductPainelProps) {
                         >
                           Delete
                         </MenuItem>
-                        <MenuItem>Edit</MenuItem>
+                        <MenuItem onClick={() => handleEditProduct(product.id)}>
+                          Edit
+                        </MenuItem>
                         <MenuItem onClick={() => handleShowDetails(product.id)}>
                           Show Details
                         </MenuItem>
