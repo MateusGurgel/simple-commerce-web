@@ -11,11 +11,6 @@ import {
   Textarea,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   FormErrorMessage,
   useToast,
 } from "@chakra-ui/react";
@@ -29,6 +24,7 @@ import {
   FormikProps,
 } from "formik";
 import { api } from "@/app/api";
+import { useState } from "react";
 
 export interface ProductEditProps {
   isOpen: boolean;
@@ -37,6 +33,7 @@ export interface ProductEditProps {
 }
 
 interface FormProps {
+  [key: string]: any;
   id: string;
   name: string;
   brand: string;
@@ -52,6 +49,8 @@ export default function ProductEdit({
   product,
 }: ProductEditProps) {
   const toast = useToast();
+  const [picture, setPicture] = useState<File | undefined>();
+
   if (!product) {
     return <></>;
   }
@@ -62,8 +61,20 @@ export default function ProductEdit({
   ) {
     actions.setSubmitting(false);
 
+    const formData = new FormData();
+
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+
+    if (picture) {
+      console.log(picture);
+      formData.append("picture", picture);
+    }
+
     try {
-      await api.patch("products/" + values.id, values);
+      await api.patch("products/" + values.id, formData);
+
       toast({
         title: "Action executed successfully.",
         position: "top-right",
@@ -235,6 +246,19 @@ export default function ProductEdit({
                     </FormControl>
                   )}
                 </Field>
+              </FormControl>
+
+              <FormControl>
+                <input
+                  id="file"
+                  name="file"
+                  type="file"
+                  onChange={(event) => {
+                    if (event.currentTarget.files) {
+                      setPicture(event.currentTarget.files[0]);
+                    }
+                  }}
+                />
               </FormControl>
 
               <Button>Edit</Button>
