@@ -22,6 +22,7 @@ import LoadingScreen from "@/app/components/loadingScreen";
 import Product from "@/app/interfaces/Product";
 import NotFoundScreen from "@/app/components/notFoundScreen";
 import { addToCart, useCartState } from "@/app/redux/cart";
+import { endPoint } from "@/app/constants";
 
 interface productsProps {
   params: {
@@ -58,7 +59,7 @@ export default function Home({ params }: productsProps) {
     <Center>
       <SimpleGrid m="10" columns={[1, 2]} spacing={5}>
         <VStack maxW={600} alignItems={"flex-start"} gap="2">
-          <Image src={"/placeholder.jpg"} alt="" width={600} height={600} />
+          <Image src={endPoint + data.image} alt="" width={600} height={600} />
           <section>
             <Heading as="h1" size="lg">
               {data?.name}

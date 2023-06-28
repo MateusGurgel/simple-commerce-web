@@ -2,7 +2,6 @@
 import { SimpleGrid, Flex, Spinner, Box } from "@chakra-ui/react";
 import Banner from "./components/banner";
 import ItemCard from "./components/itemCard";
-import SquareCard from "./components/squareCard";
 import Product from "./interfaces/Product";
 import { fetcher } from "./api";
 import useSWR from "swr";
@@ -15,10 +14,6 @@ export default function Home() {
   return (
     <>
       <Banner />
-      <SimpleGrid columns={2} spacing={10}>
-        <SquareCard imageURL={"/placeholder.jpg"} href="123" />
-        <SquareCard imageURL={"/placeholder.jpg"} href="123" />
-      </SimpleGrid>
       <SimpleGrid
         p={10}
         minChildWidth="320px"
@@ -32,6 +27,7 @@ export default function Home() {
           data &&
           data.map((product) => (
             <ItemCard
+              imageURL={product.image}
               key={product.id}
               itemID={product.id}
               title={product.name}

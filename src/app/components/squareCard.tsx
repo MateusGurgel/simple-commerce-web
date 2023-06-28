@@ -1,17 +1,18 @@
 import { AiOutlineRight } from "react-icons/ai";
 import Link from "next/link";
+import { endPoint } from "../constants";
 
 interface squareCardProps {
   imageURL: string;
   href: string;
 }
 
-export default function SquareCard(props: squareCardProps) {
+export default function SquareCard({ href, imageURL }: squareCardProps) {
   return (
     <Link
-      href={props.href}
+      href={href}
       style={{
-        backgroundImage: "url('/placeholder.jpg')",
+        backgroundImage: `url(${endPoint + imageURL})`,
         backgroundRepeat: "contain",
         backgroundSize: "cover",
       }}

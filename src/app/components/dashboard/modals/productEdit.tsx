@@ -69,7 +69,7 @@ export default function ProductEdit({
 
     if (picture) {
       console.log(picture);
-      formData.append("picture", picture);
+      formData.append("image", picture);
     }
 
     try {

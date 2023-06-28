@@ -1,11 +1,11 @@
 "use client";
 
-import { VStack, Box, HStack, Heading, Divider } from "@chakra-ui/react";
+import { VStack, Box, HStack, Heading } from "@chakra-ui/react";
 import Button from "../components/button";
 import OrderItemCard from "../components/OrderItemCard";
 import { useEffect, useState } from "react";
 import { useCartState } from "../redux/cart";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const cartState = useCartState();

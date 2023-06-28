@@ -6,10 +6,12 @@ import { addToCart } from "../redux/cart";
 import { api } from "../api";
 import Product from "../interfaces/Product";
 import { useRouter } from "next/navigation";
+import { endPoint } from "../constants";
 
 interface ItemCardProps {
   title: string;
   itemID: string;
+  imageURL: string;
 }
 
 export default function ItemCard(props: ItemCardProps) {
@@ -45,7 +47,12 @@ export default function ItemCard(props: ItemCardProps) {
         href={`/products/${props.itemID}`}
         className="flex flex-col items-center justify-center"
       >
-        <Image src={"/placeholder.jpg"} alt="" width={237} height={162} />
+        <Image
+          src={endPoint + props.imageURL}
+          alt=""
+          width={237}
+          height={162}
+        />
         <h1 className="font-normal text-gray-600">{props.title}</h1>
       </Link>
 
