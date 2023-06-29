@@ -1,7 +1,7 @@
 import OrderProduct from "./OrderProducts";
 
 export default interface Order {
-  id: number;
+  id: string;
   check_out_order_id: string;
   is_paid: boolean;
   user_id: number;

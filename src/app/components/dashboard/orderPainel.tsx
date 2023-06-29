@@ -1,6 +1,5 @@
 "use client";
 import Order from "@/app/interfaces/Order";
-import Product from "@/app/interfaces/Product";
 import { Box } from "@chakra-ui/react";
 
 import {
@@ -18,6 +17,7 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { HiChevronDoubleDown } from "react-icons/hi";
 
 export interface OrderPainelProps {
@@ -25,7 +25,11 @@ export interface OrderPainelProps {
 }
 
 export default function OrderPainel({ orders }: OrderPainelProps) {
-  const toast = useToast();
+  const router = useRouter();
+
+  async function handleShowOrder(orderId: string) {
+    router.push("/orders/" + orderId);
+  }
 
   return (
     <TableContainer>
@@ -50,9 +54,9 @@ export default function OrderPainel({ orders }: OrderPainelProps) {
                       Actions
                     </MenuButton>
                     <MenuList>
-                      <MenuItem>Delete</MenuItem>
-                      <MenuItem>Edit</MenuItem>
-                      <MenuItem>Show Details</MenuItem>
+                      <MenuItem onClick={() => handleShowOrder(order.id)}>
+                        Show Details
+                      </MenuItem>
                     </MenuList>
                   </Menu>
                 </Box>
