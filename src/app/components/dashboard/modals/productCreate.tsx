@@ -12,6 +12,7 @@ import {
   FormErrorMessage,
   useToast,
   ModalHeader,
+  Box,
 } from "@chakra-ui/react";
 import Button from "../../button";
 import {
@@ -44,6 +45,7 @@ interface FormProps {
 export default function ProductCreate({ isOpen, onClose }: ProductEditProps) {
   const toast = useToast();
   const [picture, setPicture] = useState<File | undefined>();
+  const [pictureError, setPictureErro] = useState<string | undefined>();
 
   const CreateProductSchema = Yup.object().shape({
     name: Yup.string()
@@ -82,20 +84,21 @@ export default function ProductCreate({ isOpen, onClose }: ProductEditProps) {
     actions: FormikHelpers<FormProps>
   ) {
     actions.setSubmitting(false);
-
+    setPictureErro(undefined);
+    if (!picture) {
+      setPictureErro("Required");
+      return;
+    }
     const formData = new FormData();
 
     Object.keys(values).forEach((key) => {
       formData.append(key, values[key]);
     });
 
-    if (picture) {
-      console.log(picture);
-      formData.append("image", picture);
-    }
+    formData.append("image", picture);
 
     try {
-      await api.patch("products/" + values.id, formData);
+      await api.post("products/", formData);
 
       toast({
         title: "Action executed successfully.",
@@ -111,6 +114,8 @@ export default function ProductCreate({ isOpen, onClose }: ProductEditProps) {
         position: "top-right",
       });
     }
+
+    onClose();
   }
 
   const initialValues = {
@@ -276,7 +281,8 @@ export default function ProductCreate({ isOpen, onClose }: ProductEditProps) {
                 </Field>
               </FormControl>
 
-              <FormControl>
+              <FormLabel>Product Picture</FormLabel>
+              <FormControl isInvalid={!!pictureError}>
                 <input
                   id="file"
                   name="file"
@@ -287,9 +293,12 @@ export default function ProductCreate({ isOpen, onClose }: ProductEditProps) {
                     }
                   }}
                 />
+                <FormErrorMessage>{pictureError}</FormErrorMessage>
               </FormControl>
 
-              <Button>Create</Button>
+              <Box m={4}>
+                <Button>Create</Button>
+              </Box>
             </Form>
           </ModalBody>
         </ModalContent>
