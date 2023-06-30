@@ -1,7 +1,7 @@
 "use client";
 import { api } from "@/app/api";
 import Product from "@/app/interfaces/Product";
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, useDisclosure } from "@chakra-ui/react";
 
 import {
   Table,
@@ -15,13 +15,15 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Button,
   useToast,
 } from "@chakra-ui/react";
 import { HiChevronDoubleDown } from "react-icons/hi";
 import { useState } from "react";
 import ProductShow from "./modals/productShow";
 import ProductEdit from "./modals/productEdit";
+import BlackButton from "../button";
+
+import ProductCreate from "./modals/productCreate";
 
 export interface ProductPainelProps {
   products: Product[] | undefined;
@@ -40,6 +42,12 @@ export default function ProductPainel({ products }: ProductPainelProps) {
     onClose: onEditClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure();
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const toast = useToast();
 
@@ -48,6 +56,20 @@ export default function ProductPainel({ products }: ProductPainelProps) {
       const order = await api.get<Product>("/products/" + productId);
       setSelectedProduct(order.data);
       onShowOpen();
+    } catch (error) {
+      toast({
+        title: "Something went wrong. Please try again later.",
+        status: "error",
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }
+
+  async function handleCreateProduct() {
+    try {
+      //OpenModal
+      onCreateOpen();
     } catch (error) {
       toast({
         title: "Something went wrong. Please try again later.",
@@ -104,6 +126,9 @@ export default function ProductPainel({ products }: ProductPainelProps) {
         onClose={onEditClose}
         product={selectedProduct}
       />
+      <ProductCreate isOpen={isCreateOpen} onClose={onCreateClose} />
+
+      <BlackButton OnClick={handleCreateProduct}>Create</BlackButton>
 
       <TableContainer>
         <Table variant="simple">
