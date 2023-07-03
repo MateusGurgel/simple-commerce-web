@@ -86,13 +86,15 @@ export default function Home({ params }: productsProps) {
           alignItems={"flex-start"}
           gap="2"
         >
-          <Comment
-            name="ABOGUS"
-            title="Gostei!"
-            description="Gostei Não"
-            date="1-20-2023"
-            rate={3}
-          />
+          {data.reviews.map((review) => (
+            <Comment
+              name={review.user_name}
+              title={review.title}
+              description={review.message}
+              date={new Date(review.updated_at).toLocaleDateString()}
+              rate={review.rate}
+            />
+          ))}
         </VStack>
       </SimpleGrid>
     </Center>

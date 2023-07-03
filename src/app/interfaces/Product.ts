@@ -1,3 +1,5 @@
+import Review from "./review";
+
 export default interface Product {
   id: string;
   name: string;
@@ -10,4 +12,5 @@ export default interface Product {
   description: string;
   created_at: string;
   updated_at: string;
+  reviews: Review[];
 }
