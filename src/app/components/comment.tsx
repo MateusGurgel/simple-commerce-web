@@ -17,7 +17,7 @@ export default function Comment(props: ItemCardProps) {
           <Heading size="sm">{props.name}</Heading>
           <Heading size="sm">{"-"}</Heading>
           <Heading size="sm">{props.title}</Heading>
-          <Rating rate={5} />
+          <Rating rate={props.rate} />
         </Flex>
         <br />
 
