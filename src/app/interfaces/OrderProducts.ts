@@ -1,4 +1,5 @@
 import Product from "./Product";
+import Review from "./review";
 
 export default interface OrderProduct {
   id: number;
@@ -7,5 +8,6 @@ export default interface OrderProduct {
   quantity: number;
   created_at: string;
   updated_at: string;
+  review: Review;
   product: Product;
 }

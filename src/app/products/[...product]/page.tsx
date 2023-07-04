@@ -86,15 +86,20 @@ export default function Home({ params }: productsProps) {
           alignItems={"flex-start"}
           gap="2"
         >
-          {data.reviews.map((review) => (
-            <Comment
-              name={review.user_name}
-              title={review.title}
-              description={review.message}
-              date={new Date(review.updated_at).toLocaleDateString()}
-              rate={review.rate}
-            />
-          ))}
+          {data.orderProducts.map(
+            (orderProduct) =>
+              orderProduct.review && (
+                <Comment
+                  name={orderProduct.review.user_name}
+                  title={orderProduct.review.title}
+                  description={orderProduct.review.message}
+                  date={new Date(
+                    orderProduct.review.updated_at
+                  ).toLocaleDateString()}
+                  rate={orderProduct.review.rate}
+                />
+              )
+          )}
         </VStack>
       </SimpleGrid>
     </Center>
