@@ -4,10 +4,11 @@ import { api, fetcher } from "@/app/api";
 import Order from "@/app/interfaces/Order";
 import { useRouter } from "next/navigation";
 import LoadingScreen from "../loadingScreen";
-import { useCartState } from "@/app/redux/cart";
+import { clearCart, useCartState } from "@/app/redux/cart";
 import PaypalInfo from "@/app/interfaces/PaypalInfo";
 import { Box, Heading, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { useDispatch } from "react-redux";
 
 export default function CheckoutPlaceOrder() {
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
@@ -19,6 +20,8 @@ export default function CheckoutPlaceOrder() {
     "api/paypal/config",
     fetcher
   );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!paypalIsLoading && paypalInfo) {
@@ -55,6 +58,8 @@ export default function CheckoutPlaceOrder() {
         id: data.orderID,
       })
       .then(() => {
+        dispatch<any>(clearCart());
+
         toast({
           title:
             "Purchase successful! Your order has been confirmed and is being processed.",
