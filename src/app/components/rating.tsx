@@ -21,8 +21,9 @@ export default function Rating({ rate }: RatingProps) {
       }
 
       if (number < 1) {
+        number = 0;
         elements.push(<IoIosStarHalf key={i} />);
-        break;
+        continue;
       }
 
       elements.push(<IoIosStar key={i} />);
