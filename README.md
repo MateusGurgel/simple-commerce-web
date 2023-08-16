@@ -5,7 +5,6 @@ A simple e-commerce platform with all basic functionalities and a securely imple
 
 
 ## Screenshots
-#https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/CreateProductPage.png
 ![Home](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/MainPage.png)
 
 ![Home](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/Cart.png)
