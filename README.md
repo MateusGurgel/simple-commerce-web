@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Simple commerce
 
-First, run the development server:
+A simple e-commerce platform with all basic functionalities and a securely implemented PayPal Payment API.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Screenshots
+#https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/CreateProductPage.png
+![Home](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/MainPage.png)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![Home](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/Cart.png)
+![CreateProductPage](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/CreateProductPage.png)
+![OrderPreview](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/OrderPreview.png)
+![OrdersLists](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/OrdersLists.png)
+![PayPage](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/PayPage.png)
+![PaymentInfo](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/PaymentInfo.png)
+![ShippingPage](https://raw.githubusercontent.com/MateusGurgel/simple-commerce-web/main/demos/ShippingAddrScreen.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Functionalities
 
-To learn more about Next.js, take a look at the following resources:
+- Authentication
+- Product management
+- Users management
+- Paypal payment API integrated
+- Cart
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Learnings
 
-## Deploy on Vercel
+I have acquired the skill of integrating payment APIs into applications.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## license
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
